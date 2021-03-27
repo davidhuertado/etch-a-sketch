@@ -13,8 +13,6 @@ body.style.alignItems = "center";
 body.style.justifyContent = "center";
 
 granDiv.style.display = "grid";
-granDiv.style.gridTemplateColumns = "repeat(16, 1fr)";
-granDiv.style.gridTemplateRows = "repeat(16, 1fr)";
 granDiv.style.width = "500px";
 granDiv.style.height = "500px";
 granDiv.style.margin = "6rem";
@@ -22,6 +20,12 @@ granDiv.style.backgroundColor = "#fff";
 granDiv.style.borderStyle = "solid";
 granDiv.style.borderColor = "yellow";
 granDiv.setAttribute("id", "gran-div");
+
+
+
+granDiv.style.gridTemplateColumns = "repeat(16, 1fr)";
+granDiv.style.gridTemplateRows = "repeat(16, 1fr)";
+
 
 botonReset.innerText = "Reset";
 botonReset.addEventListener("click", function () {
@@ -44,9 +48,18 @@ function resetGrilla(granDiv, crearGrilla, hoverGrilla) {
       granDiv.removeChild(granDiv.firstChild);
     }
     let nuevaGrilla = crearGrilla(cantidadColumnas);
+    
+    let nuevasColumnas = columnasGranDiv(cantidadColumnas);
     nuevaGrilla = hoverGrilla(nuevaGrilla);
+    return nuevasColumnas, nuevaGrilla;
+    
+    // return nuevaGrilla;
+  }
 
-    return nuevaGrilla;
+  function columnasGranDiv(cantidadColumnas) {
+    granDiv.style.gridTemplateColumns = "repeat(" + cantidadColumnas + ", 1fr)";
+  granDiv.style.gridTemplateRows = "repeat(" + cantidadColumnas + ", 1fr)";
+  return;
   }
 }
 
@@ -72,7 +85,7 @@ function crearGrilla(cantidadColumnas) {
     }
     return grilla;
   } else
-    for (let i = 0; i < cantidadColumnas; i++) {
+    for (let i = 0; i < cantidadColumnas * cantidadColumnas; i++) {
       grilla[i] = document.createElement("div");
       grilla[i].setAttribute("class", "cadaCuadro");
       //grilla[i].style.cssText = "width: 5px; height: 5px";
