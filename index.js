@@ -2,44 +2,81 @@
 
 const body = document.querySelector("body");
 const granDiv = document.createElement("div");
-const bodyDiv = document.createElement("div");
+const botonReset = document.createElement("button");
+body.appendChild(botonReset);
 body.appendChild(granDiv);
-let grilla = crearGrilla(); 
+
+let grilla = crearGrilla();
+
 body.style.display = "flex";
 body.style.alignItems = "center";
 body.style.justifyContent = "center";
+
 granDiv.style.display = "grid";
 granDiv.style.gridTemplateColumns = "repeat(16, 1fr)";
 granDiv.style.gridTemplateRows = "repeat(16, 1fr)";
 granDiv.style.width = "500px";
 granDiv.style.height = "500px";
 granDiv.style.margin = "6rem";
-granDiv.style.backgroundColor = "pink";
+granDiv.style.backgroundColor = "#fff";
+granDiv.style.borderStyle = "solid";
+granDiv.style.borderColor = "yellow";
 granDiv.setAttribute("id", "gran-div");
+
+botonReset.innerText = "Reset";
+botonReset.addEventListener("click", function () {
+  resetGrilla(granDiv, crearGrilla, hoverGrilla);
+});
 let grillaConHover = hoverGrilla(grilla);
 
+//
 
+function resetGrilla(granDiv, crearGrilla, hoverGrilla) {
+  let cantidadColumnas = prompt("Size of the square (2 - 100 and integers)");
+  cantidadColumnas = parseInt(cantidadColumnas);
+  if (cantidadColumnas < 2 || cantidadColumnas > 100) {
+    alert("ERROR");
+    return;
+  } else {
+    let viejaGrilla = document.querySelectorAll(".cadaCuadro");
+
+    while (granDiv.firstChild) {
+      granDiv.removeChild(granDiv.firstChild);
+    }
+    let nuevaGrilla = crearGrilla(cantidadColumnas);
+    nuevaGrilla = hoverGrilla(nuevaGrilla);
+
+    return nuevaGrilla;
+  }
+}
 
 function hoverGrilla(grilla) {
   for (let i = 0; i < 256; i++) {
     grilla[i].addEventListener("mouseover", () => {
       grilla[i].style.backgroundColor = "black";
-    })
+    });
   }
   return;
 }
 
-
 //Crear grilla 16*16
 
-function crearGrilla() {
+function crearGrilla(cantidadColumnas) {
   let grilla = [];
+  if (cantidadColumnas == undefined) {
+    for (let i = 0; i < 256; i++) {
+      grilla[i] = document.createElement("div");
+      grilla[i].setAttribute("class", "cadaCuadro");
 
-  for (let i = 0; i < 256; i++) {
-    grilla[i] = document.createElement("div");
-    grilla[i].setAttribute("class", "cadaCuadro");
-    //grilla[i].style.cssText = "width: 5px; height: 5px";
-    granDiv.appendChild(grilla[i]);
-  }
+      granDiv.appendChild(grilla[i]);
+    }
+    return grilla;
+  } else
+    for (let i = 0; i < cantidadColumnas; i++) {
+      grilla[i] = document.createElement("div");
+      grilla[i].setAttribute("class", "cadaCuadro");
+      //grilla[i].style.cssText = "width: 5px; height: 5px";
+      granDiv.appendChild(grilla[i]);
+    }
   return grilla;
 }
